@@ -1,11 +1,30 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   text-align: center;
+  background-color: #f2f2f2;
 }
 
-#pokemonCard {
-  margin-top: 20px;
-  border: 1px solid #ccc;
+input {
+  padding: 8px;
+}
+
+button {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#card {
+  background: white;
+  width: 200px;
+  margin: 20px auto;
   padding: 15px;
-  display: inline-block;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: red;
 }
