@@ -2,15 +2,27 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mini Pokédex</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Mini Pokedex</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <h1>Mini Pokédex</h1>
-  <input type="text" id="pokemonInput" placeholder="Ingresa nombre o ID">
+
+  <input type="text" id="inputPokemon" placeholder="Ej: pikachu">
   <button onclick="buscarPokemon()">Buscar</button>
-  <div id="loading" style="display:none;">Cargando...</div>
-  <div id="pokemonCard"></div>
-  <script src="script.js"></script>
+
+  <p id="loading" class="hidden">Cargando...</p>
+  <p id="error" class="error"></p>
+
+  <div id="card" class="hidden">
+    <h2 id="nombre"></h2>
+    <img id="imagen">
+    <p id="tipo"></p>
+    <p id="peso"></p>
+    <p id="altura"></p>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
