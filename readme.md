@@ -1,3 +1,68 @@
-Para probar la PokéAPI arranqué buscando un Pokémon por nombre con la URL https://pokeapi.co/api/v2/pokemon/pikachu usando el método GET. La respuesta fue un 200 OK y un JSON con datos como el nombre, la imagen (sprites.front_default), los tipos, el peso y la altura. Después probé lo mismo pero por ID con la URL https://pokeapi.co/api/v2/pokemon/25, que devuelve la misma info pero buscada por número. Para traer una lista de varios Pokémon usé https://pokeapi.co/api/v2/pokemon?limit=10&offset=0, también con GET, y me devolvió un 200 OK con un array llamado results que tiene los nombres y las URLs de los primeros 10 Pokémon. Luego probé pedir info de un tipo específico con https://pokeapi.co/api/v2/type/electric, que devuelve un 200 OK y un JSON con los Pokémon eléctricos y las relaciones de daño (qué tipos les hacen más o menos daño). Finalmente, para forzar un error usé https://pokeapi.co/api/v2/pokemon/xyz, que devolvió un 404 Not Found y un mensaje diciendo que el recurso no existe.
+# TP Postman – Testing de API
+En este trabajo se realizaron pruebas sobre la PokéAPI utilizando Postman. Se ejecutaron distintas requests para verificar el funcionamiento de los endpoints y se agregaron tests para validar las respuestas tanto en casos correctos como en casos de error.
+Endpoints utilizados:
 
-En general, las URLs las saqué mirando la documentación oficial y probando variaciones en Postman (por ejemplo, cambiar pokemon/{id} por pokemon/{name}). Los endpoints /pokemon/{name} o /pokemon/{id} sirven para obtener datos completos de un Pokémon, /pokemon?limit=X&offset=Y para traer listas, y /type/{type} para ver info de un tipo y sus Pokémon asociados. Cuando algo falla, el servidor responde con un 404 y un mensaje de error.
+Durante las pruebas se utilizaron los siguientes endpoints de la PokéAPI:
+
+* GET [https://pokeapi.co/api/v2/pokemon/pikachu](https://pokeapi.co/api/v2/pokemon/pikachu)
+  Se utilizó para obtener un Pokémon por nombre. La respuesta fue 200 OK y devolvió un JSON con datos como nombre, imagen (sprites.front_default), tipos, peso y altura.
+
+* GET [https://pokeapi.co/api/v2/pokemon/25](https://pokeapi.co/api/v2/pokemon/25)
+  Se utilizó para obtener un Pokémon por ID. Devuelve la misma información que la búsqueda por nombre.
+
+* GET [https://pokeapi.co/api/v2/pokemon?limit=10&offset=0](https://pokeapi.co/api/v2/pokemon?limit=10&offset=0)
+  Se utilizó para obtener una lista de Pokémon. La respuesta fue 200 OK y devolvió un array "results" con nombres y URLs.
+
+* GET [https://pokeapi.co/api/v2/type/electric](https://pokeapi.co/api/v2/type/electric)
+  Se utilizó para obtener información de un tipo. Devuelve los Pokémon de ese tipo y relaciones de daño.
+
+* GET [https://pokeapi.co/api/v2/pokemon/xyz](https://pokeapi.co/api/v2/pokemon/xyz)
+  Se utilizó para probar un caso de error. La respuesta fue 404 Not Found indicando que el recurso no existe.
+
+Los endpoints fueron obtenidos a partir de la documentación oficial y probando variaciones en Postman (por ejemplo, cambiar pokemon/{id} por pokemon/{name}).
+
+ Tests implementados
+
+Se validaron los siguientes aspectos:
+
+* Código de estado (200 OK y 404 Not Found)
+* Tiempo de respuesta
+* Formato de la respuesta (JSON)
+* Presencia de datos en la respuesta (nombre, tipos, imagen, etc.)
+
+Ejemplo de test:
+
+```javascript
+pm.test("Status 200", function () {
+    pm.response.to.have.status(200);
+});
+```
+
+ Estructura del proyecto
+
+* collection.json: colección de Postman
+* environment.json (opcional): variables de entorno
+* README.md: documentación
+
+ Cómo usar
+
+1. Importar la colección en Postman
+2. Ejecutar las requests
+3. Verificar los resultados en la sección de tests
+
+ Decisiones tomadas
+
+* Se utilizaron endpoints de la PokéAPI según su documentación oficial
+* Se probaron tanto búsquedas por nombre como por ID
+* Se incluyeron casos de error para validar respuestas incorrectas
+* Se organizaron las requests de forma clara
+
+ Dificultades encontradas
+
+* Comprender la estructura de las respuestas JSON
+* Identificar correctamente los endpoints disponibles
+* Manejar errores cuando el recurso no existe
+
+ Conclusión
+
+Se logró implementar un conjunto de pruebas funcionales sobre la PokéAPI, validando tanto respuestas correctas como errores, utilizando Postman como herramienta principal.
