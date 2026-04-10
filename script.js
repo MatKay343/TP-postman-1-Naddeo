@@ -1,27 +1,58 @@
-async function buscarPokemon() {
-  const input = document.getElementById("pokemonInput").value.toLowerCase();
-  const card = document.getElementById("pokemonCard");
-  const loading = document.getElementById("loading");
+const API_URL = "https://pokeapi.co/api/v2/pokemon/";
 
-  card.innerHTML = "";
-  loading.style.display = "block";
+async function buscarPokemon() {
+  const nombreInput = document.getElementById("inputPokemon").value.toLowerCase().trim();
+
+  limpiar();
+
+  if (nombreInput === "") {
+    mostrarError("Ingresá un nombre válido");
+    return;
+  }
+
+  mostrarLoading(true);
 
   try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
-    if (!response.ok) throw new Error("Pokémon no encontrado");
+    const response = await fetch(API_URL + nombreInput);
+
+    if (!response.ok) {
+      throw new Error("No existe el Pokémon");
+    }
 
     const data = await response.json();
+    mostrarPokemon(data);
 
-    card.innerHTML = `
-      <h2>${data.name}</h2>
-      <img src="${data.sprites.front_default}" alt="${data.name}">
-      <p>Tipo: ${data.types.map(t => t.type.name).join(", ")}</p>
-      <p>Peso: ${data.weight}</p>
-      <p>Altura: ${data.height}</p>
-    `;
   } catch (error) {
-    card.innerHTML = `<p style="color:red;">${error.message}</p>`;
+    mostrarError(error.message);
   } finally {
-    loading.style.display = "none";
+    mostrarLoading(false);
   }
+}
+
+function mostrarPokemon(pokemon) {
+  document.getElementById("card").classList.remove("hidden");
+
+  document.getElementById("nombre").textContent = pokemon.name;
+  document.getElementById("imagen").src = pokemon.sprites.front_default;
+  document.getElementById("tipo").textContent = "Tipo: " + pokemon.types.map(t => t.type.name).join(", ");
+  document.getElementById("peso").textContent = "Peso: " + pokemon.weight;
+  document.getElementById("altura").textContent = "Altura: " + pokemon.height;
+}
+
+function mostrarError(msg) {
+  document.getElementById("error").textContent = msg;
+}
+
+function mostrarLoading(estado) {
+  const loading = document.getElementById("loading");
+  if (estado) {
+    loading.classList.remove("hidden");
+  } else {
+    loading.classList.add("hidden");
+  }
+}
+
+function limpiar() {
+  document.getElementById("error").textContent = "";
+  document.getElementById("card").classList.add("hidden");
 }
